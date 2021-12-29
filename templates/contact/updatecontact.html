@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang='en'>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel='stylesheet' href="{% static 'css/bootstrap.min.css' %}" >
+	<title>Редактирование</title>
+</head>
+
+{% block content %}
+
+<div class="container">
+    <h2 class="my-2">Edit Contact</h2>
+    <form action="" method=POST>
+        {% csrf_token %}
+        {{form.as_p}}
+        <br/>
+        <input type="submit" value="Update" class="btn btn-secondary">
+    </form>
+</div>
+
+{% endblock %}

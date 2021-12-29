@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel='stylesheet' href="{% static 'css/bootstrap.min.css' %}" >
+  <title>Add new Contact</title>
+</head>
+
+<body>
+{% block content %}
+<div class="container">
+  <h2 class="my-2">Add new Contact</h2>
+
+  <form id="contactForm" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" name="contact-submit" class="btn btn-success btn-lg" />
+  </form>
+</div>
+{% endblock %}
+
+{% block javascript %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+      $(document).ready(function () {
+          $('#contactForm').submit(function () {
+              // создаем AJAX-вызов
+              $.ajax({
+                  data: $(this).serialize(), // получаем данные формы
+                  type: $(this).attr('method'), // GET или POST
+                  url: "{% url 'addcontact' %}",
+                  // если успешно, то
+                  success: function (response) {
+                      alert("Новый Контакт добавлен в базу данных ");
+                      window.location.href = "{% url 'home' %}";
+                  },
+                  // если ошибка, то
+                  error: function (response) {
+                      // предупредим об ошибке
+                      alert(response.responseJSON.errors);
+                      console.log(response.responseJSON.errors)
+                  }
+              });
+              return false;
+          });
+      })
+  </script>
+{% endblock javascript %}
+</body>
+</html>
